@@ -1,3 +1,5 @@
+import json
+
 class Grid:
     whole=[]
     row=0
@@ -69,24 +71,24 @@ class person(Grid):
                         self.y-=1
                         
                         
-                        
-    
-row=int(input("Enter the row: "))
-col=int(input("enter the columns: "))
-grid=Grid(row,col)
-i=int(input("How many initial locations are infected??? "))
-while i:
-    x=int(input("Enter the xth value: "))
-    y=int(input("Enter the yth value: "))
-    grid.infection(x,y)
-    i-=1
 
-how_many=int(input("How many people are there to observe: "))
-for i in range(how_many):
-    xpos=int(input("X axis position: "))
-    ypos=int(input("Y axis position: "))
-    direction=input("GIVE THE DIRECTION THE PERSON IS FACING ")
-    movement=input("Enter the movement series: ")
+data=input()
+dictdata=json.loads(data)
+
+
+grid=Grid(dictdata["grid"]["length"],dictdata["grid"]["breath"])
+
+for i in dictdata["infectedCells"]:
+    x=i["x"]
+    y=i["y"]
+    grid.infection(x,y)
+
+
+for i in dictdata["persons"]:
+    xpos=int(i["initialPosition"][0])
+    ypos=int(i["initialPosition"][2])
+    direction=i["initialPosition"][4]
+    movement=i["movement"]
     A1=person(xpos,ypos,direction,movement)
     
 for x in grid.whole:
